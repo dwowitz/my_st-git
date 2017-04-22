@@ -6,8 +6,6 @@ package name and executable allowing each user to install their own customized p
 
 This repo also includes my personal st configuration and patchset.
 
-![](screenshot.png)
-
 ---
 
 ## Installation

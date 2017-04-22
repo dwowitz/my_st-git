@@ -19,10 +19,13 @@ epoch=1
 source=("$_pkgname::git+http://git.suckless.org/st")
 _files=(config.h
 		Makefile)
-_patches=()
-source=(${source[@]} ${_patches[@]})
+_patches=(01_st-scrollback-20170329-149c0d3.diff)
+source=(${source[@]} ${_files[@]} ${_patches[@]})
 
-sha1sums=('SKIP')
+sha1sums=('SKIP'
+          'd4a73ef1eb81b0ea819160f7185bb9296a288618'
+          '13324e84100d21e19985c641f96b83fbf05a1be9'
+          '6a41683a04375f192d014cead227c749c595a721')
 
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")

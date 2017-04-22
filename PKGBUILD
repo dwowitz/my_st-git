@@ -2,9 +2,9 @@
 # Past Maintainer: Gaetan Bisson <bisson@archlinux.org>
 # Contributor: Scytrin dai Kinthra <scytrin@gmail.com>
 
-pkgname=st-git
-_pkgname=st
-pkgver=0.7.9.g8c99915
+pkgname=st-git_${USER}
+_pkgname=st_${USER}
+pkgver=0.7.24.g5a10aca
 pkgrel=1
 pkgdesc='Simple virtual terminal emulator for X'
 url='http://st.suckless.org/'
@@ -15,7 +15,13 @@ depends=('libxft')
 makedepends=('ncurses' 'libxext' 'git')
 epoch=1
 # include config.h and any patches you want to have applied here
-source=('git://git.suckless.org/st')
+#source=('git://git.suckless.org/st')
+source=("$_pkgname::git+http://git.suckless.org/st")
+_files=(config.h
+		Makefile)
+_patches=()
+source=(${source[@]} ${_patches[@]})
+
 sha1sums=('SKIP')
 
 provides=("${_pkgname}")
@@ -41,16 +47,16 @@ prepare() {
 		-e 's/_BSD_SOURCE/_DEFAULT_SOURCE/' \
 		-i config.mk
 	sed '/@tic/d' -i Makefile
-	for file in "${source[@]}"; do
-		if [[ "$file" == "config.h" ]]; then
-			# add config.h if present in source array
-			# Note: this supersedes the above sed to config.def.h
-			cp "$srcdir/$file" .
-		elif [[ "$file" == *.diff || "$file" == *.patch ]]; then
-			# add all patches present in source array
-			patch -Np1 <"$srcdir/$(basename ${file})"
-		fi
+
+	for p in "${_patches[@]}"; do
+		echo "=> $p"
+		patch < ../$p || return 1
 	done
+
+	for file in "${_files[@]}"; do
+		cp -f $srcdir/${file} ${file}
+	done
+
 }
 
 build() {

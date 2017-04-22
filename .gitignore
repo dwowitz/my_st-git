@@ -1,0 +1,10 @@
+/*
+!/README.md
+!/Makefile
+!/config.h
+!/*.diff
+!/.git
+!/.gitignore
+!/PKGBUILD
+!/*.bak
+
